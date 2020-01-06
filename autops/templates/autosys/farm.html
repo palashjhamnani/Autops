@@ -1,0 +1,102 @@
+{% extends 'autosys/base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+
+
+        {% if user.is_authenticated %}
+    <div class="page-header">
+
+                <h3>Hello {{ user.username }}! You are in farm: {{ farm_name }}</h3>
+            {% else %}
+                <h1>Hello, Please sign in!</h1>
+            {% endif %}
+    </div>
+
+        <h1>{{ farm_name }}</h1>
+
+
+    <div class="row placeholders">
+            <div class="col-xs-12 col-sm-6 placeholder">
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+            <h3 class="panel-title">Windows Servers</h3>
+    </div>
+</div>
+
+        {% if farm %}
+            {% if categories %}
+
+                <ul>
+                {% for category in categories %}
+
+    <ul><a href="{% url 'category'  category.slug %}">{{ category.name }}</a></ul>
+
+    {% endfor %}
+            </ul>
+            {% else %}
+                <strong>No windows server currently in farm.</strong>
+            {% endif %}
+        {% else %}
+            The specified category {{ farm_name }} does not exist!
+        {% endif %}
+
+
+
+            </br></br></br>
+
+                {% if farm %}
+                <a class="btn btn-default" href="/autosys/farm/{{ farm_name_slug }}/add_category/">Add a New Windows Server</a><br />
+
+            {% else %} A Farm by this name does not exist
+            {% endif %}
+
+
+</div>
+
+    <div class="col-xs-12 col-sm-6 placeholder">
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Linux Servers</h3>
+                    </div>
+                </div>
+
+        {% if farm %}
+            {% if linuxservers %}
+
+                <ul>
+                {% for linuxserver in linuxservers %}
+
+    <ul><a href="{% url 'linuxserver'  linuxserver.slug %}">{{ linuxserver.servname }}</a></ul>
+
+    {% endfor %}
+            </ul>
+            {% else %}
+                <strong>No linux server currently in farm.</strong>
+            {% endif %}
+        {% else %}
+            The specified linux server {{ farm_name }} does not exist!
+        {% endif %}
+
+ </br></br></br>
+
+        {% if farm %}
+                <a class="btn btn-default" href="/autosys/farm/{{ farm_name_slug }}/add_linuxserver/">Add a New Linux Server</a><br />
+
+            {% else %} A Farm by this name does not exist
+            {% endif %}
+
+
+
+    </div>
+
+
+
+    </div>
+
+
+
+{% endblock %}

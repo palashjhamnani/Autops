@@ -1,0 +1,18 @@
+
+<div class="list-group">
+    {% if cows %}
+
+
+        {% if c.farm == farmname %}
+                {% for c in cows %}
+<a href="{% url 'linuxserver'  c.slug %}" class="list-group-item"><i class="fa fa-linux"></i> {{ c.servname }}</a>
+
+                {% endfor %}
+        {% else %}
+      <strong >There are no linux servers present.</strong>
+        {% endif %}
+
+</div>
+{% else %}
+     <strong >There are no linux servers present.</strong>
+    {% endif %}

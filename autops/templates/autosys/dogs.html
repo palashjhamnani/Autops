@@ -1,0 +1,12 @@
+{% if dogs %}
+
+  <!--  <div class="panel-heading"></div> -->
+<div class="list-group">
+{% for d in dogs %}
+            <a href="{% url 'farm'  d.slug %}" class="list-group-item"><i class="glyphicon glyphicon-wrench"></i> {{ d.farmname }}</a>
+        {% endfor %}
+    {% else %}
+     <strong >There are no farms present.</strong>
+{% endif %}
+</div>
+

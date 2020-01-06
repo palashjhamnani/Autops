@@ -1,0 +1,131 @@
+{% extends 'autosys/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ user.username }}{% endblock %}
+{% block body_block %}
+<!--
+    <div class="page-header">
+                <h1>{{ user.username }}</h1>
+            </div>
+            <div>
+
+                <img  width="200" height="200" src="/media/{{ user.userprofile.picture }}" alt="{{ user.username }}" />
+
+            </div>
+
+<hr>
+<strong>
+APA Username : {{ user.userprofile.apausername }}
+</br>
+APA Password : {{ user.userprofile.apapassword }}
+</br>
+BEWENO Username : {{ user.userprofile.bewenousername }}
+</br>
+BEWENO Password : {{ user.userprofile.bewenopassword }}
+    </br>
+Linux Username : {{ user.userprofile.linuxusername }}
+    </br>
+Linux Password : {{ user.userprofile.linuxpassword }}
+</strong>
+
+
+                   <form id="form" method="POST" action="/autosys/about/" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <h4>Edit Profile</h4>
+                        {{ form.as_p }}
+                        <input class="btn btn-primary" name="submit" type="submit"></input>
+
+                    </form>
+
+                    -->
+<div class="container" style="padding-top: 0px;">
+  <h1 class="page-header">Edit Profile</h1>
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="text-center">
+        <img width="200" height="200" src="/media/{{ user.userprofile.picture }}" class="avatar img-circle img-thumbnail img-responsive" alt="avatar">
+        <h6>Upload a different photo...</h6>
+        <input type="file" class="text-center center-block well well-sm">
+      </div>
+    </div>
+    <!-- edit form column -->
+    <div class="col-md-6 col-sm-4 col-xs-9 personal-info">
+      <div class="alert alert-info alert-dismissable">
+        <a class="panel-close close" data-dismiss="alert">×</a>
+        <i class="fa fa-coffee"></i>
+        {% if updated %}
+        Your profile has been successfully <strong>updated</strong>.
+        {% else %}
+        You can use the below form to update your profile details.
+        {% endif %}
+      </div>
+      <h3>Personal info</h3>
+      <form class="form-horizontal" role="form" id="form" method="POST" action="/autosys/about/" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <label class="col-lg-3 control-label">APA Username:</label>
+          <div class="col-lg-8">
+            <input name="apausername" class="form-control" value="{{ user.userprofile.apausername }}" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">APA Password:</label>
+          <div class="col-lg-8">
+            <input name="apapassword" class="form-control" value="{{ user.userprofile.apapassword }}" type="password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Beweno Username:</label>
+          <div class="col-lg-8">
+            <input name="bewenousername" class="form-control" value="{{ user.userprofile.bewenousername }}" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Beweno Password:</label>
+          <div class="col-lg-8">
+            <input name="bewenopassword" class="form-control" value="{{ user.userprofile.bewenopassword }}" type="password">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">Linux Username:</label>
+          <div class="col-md-8">
+            <input name="linuxusername" class="form-control" value="{{ user.userprofile.linuxusername }}" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label">Linux Password:</label>
+          <div class="col-md-8">
+            <input name="linuxpassword" class="form-control" value="{{ user.userprofile.linuxpassword }}" type="password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label">Radware Username:</label>
+          <div class="col-md-8">
+            <input name="lbusername" class="form-control" value="{{ user.userprofile.lbusername }}" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label">Radware Password:</label>
+          <div class="col-md-8">
+            <input name="lbpassword" class="form-control" value="{{ user.userprofile.lbpassword }}" type="password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label"></label>
+          <div class="col-md-8">
+            <input class="btn btn-primary" value="Save Changes" type="submit">
+            <span></span>
+            <input class="btn btn-default" value="Cancel" type="reset">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

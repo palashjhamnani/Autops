@@ -1,0 +1,37 @@
+{% extends 'autosys/base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+
+<div class="container">
+        <div style="margin-top:50px;" class="mainbox col-md-8 col-md-offset-30 col-sm-7 col-sm-offset-15">
+            <div class="panel panel-info" >
+                    <div class="panel-heading">
+                        <div class="panel-title">Hello {{ user.username }}!</div>
+                        <div style="padding-top:30px" class="panel-body" >
+                            <div style="display:none" class="alert alert-danger col-sm-12"></div>
+
+                <h3>Welcome to Autops Portal. </h3>
+
+  </br>
+
+    Here you can handle various server configurations, </br>
+    Add new configurations according to the process provided. Load balancing and service </br>
+    start/stop/restart can be easily handled. </br></br>
+    <h4>In the left pane menu, Farms and Servers are listed, </br>You can navigate through them and add more farms and servers !</h4>
+                             <h4>To add a new server to a farm, go to that farm and add server.</h4></br>
+                            <div style="margin-top:10px" class="form-group">
+                                    <!-- Button -->
+
+                                    <div class="col-sm-12 controls">
+                                      <a id="btn-login" type="submit" value="Submit" class="btn btn-success" method="post" href="{% url 'add_farm' %}">Add a New Farm</a>
+
+                                    </div>
+</div></div></div></div></div>
+
+
+
+
+
+{% endblock %}

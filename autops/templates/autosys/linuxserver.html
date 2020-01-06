@@ -1,0 +1,138 @@
+{% extends 'autosys/base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+
+
+        {% if user.is_authenticated %}
+    <div class="page-header">
+
+                <h3>Hello {{ user.username }}! You are in server: {{ linuxserver_servname }}</h3>
+            {% else %}
+                <h1>Hello, Please sign in!</h1>
+            {% endif %}
+    </div>
+
+
+ {% if linuxserver %}
+            {% if linuxoperations %}
+
+                {% for linuxoperation in linuxoperations %}
+
+
+
+<div class="form-group">
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <h4>{{ linuxoperation.description }}</h4>
+
+                        <button class="btn btn-primary" id="{{ linuxoperation.id }}" type="submit">Execute Task</button>
+
+                        <span id="{{ linuxoperation.lresult }}"></span>
+
+                        <div class="form-group">
+  <label for="comment">Result:</label>
+  <textarea class="form-control" rows="5" id="{{ linuxoperation.lservice }}"></textarea>
+</div>
+
+                    </form>
+
+                </div>
+
+
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+ <script>
+
+//For getting CSRF token
+function getCookie(name) {
+       var cookieValue = null;
+       if (document.cookie && document.cookie != '') {
+         var cookies = document.cookie.split(';');
+         for (var i = 0; i < cookies.length; i++) {
+         var cookie = jQuery.trim(cookies[i]);
+         // Does this cookie string begin with the name we want?
+         if (cookie.substring(0, name.length + 1) == (name + '=')) {
+             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+             break;
+          }
+     }
+ }
+ return cookieValue;
+}
+
+//For doing AJAX post
+ $("#{{ linuxoperation.id }}").click(function(e) {
+
+ e.preventDefault();
+
+ var csrftoken = getCookie('csrftoken');
+
+ var linux_id = $("#{{ linuxoperation.id }}").get(0).id;
+
+//This is the Ajax post.Observe carefully. It is nothing but details of where_to_post,what_to_post
+
+ $.ajax({
+         url : '/autosys/linuxtask/', // the endpoint,commonly same url
+         type : "POST", // http method
+         data : { csrfmiddlewaretoken : csrftoken,
+         linuxid : linux_id,
+         username : "{{ user.username }}"
+         //usernm : "{{ user.username }}"
+
+ }, // data sent with the post request
+         beforeSend:function(){
+    // this is where we append a loading image
+         $('#{{ linuxoperation.lresult }}').html('<img src="/static/images/loader.gif" alt="Loading..." />');
+  },
+
+ // handle a successful response
+ success : function(json) {
+     $('#{{ linuxoperation.lresult }}').empty();
+      console.log(json); // another sanity check
+      //On success show the data posted to server as a message
+     $("#{{ linuxoperation.lservice }}").append(json.result);
+      //alert('Hi '+json['result']);
+
+
+ },
+
+ // handle a non-successful response
+ error : function(xhr,errmsg,err) {
+ console.log(xhr.status + ": " + xhr.responseText);
+ $('#{{ linuxoperation.lresult }}').empty();
+     $("#{{ linuxoperation.lservice }}").append( 'Failed' );// provide a bit more info about the error to the console
+ }
+ });
+});
+
+
+
+
+</script>
+
+
+
+{% endfor %}
+            </ul>
+            {% else %}
+                <strong>No operations currently listed from this server.</strong>
+            {% endif %}
+        {% else %}
+            The specified linuxserver {{ linuxserver_servname }} does not exist!
+        {% endif %}
+
+
+</br></br></br>
+            {% if linuxserver %}
+                <a class="btn btn-default" href="/autosys/linuxserver/{{ linuxserver_name_slug }}/add_linuxoperation/">Add a New Task</a><br />
+
+            {% else %} A linux server by this name does not exist
+            {% endif %}
+
+
+
+
+{% endblock %}

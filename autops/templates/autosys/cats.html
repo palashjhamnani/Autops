@@ -1,0 +1,20 @@
+{% if cats %}
+
+
+<div class="list-group">
+
+
+        {% if c.farm == farmname %}
+                {% for c in cats %}
+<a href="{% url 'category'  c.slug %}" class="list-group-item"><i class="fa fa-windows"></i> {{ c.name }}</a>
+
+                {% endfor %}
+        {% else %}
+            <strong >There are no windows servers present.</strong>
+        {% endif %}
+    {% else %}
+     <strong >There are no windows servers present.</strong>
+    {% endif %}
+</div>
+
+
